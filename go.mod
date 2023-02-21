@@ -1,6 +1,6 @@
 module github.com/amarwaits/Syndica-THT
 
-go 1.12
+go 1.15
 
 replace github.com/gorilla/mux => github.com/gorilla/mux v1.8.0
 

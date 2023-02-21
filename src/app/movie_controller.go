@@ -29,7 +29,7 @@ func (c *MovieController) GetMovie(r *http.Request, data *model.MovieID, result 
 	return err
 }
 
-func (c *MovieController) GetMovies(r *http.Request, args *struct{}, result *model.MovieList) error {
+func (c *MovieController) GetMovies(r *http.Request, force *bool, result *model.MovieList) error {
 	fmt.Println(r.Context())
 	w := r.Context().Value("http.ResponseWriter").(http.ResponseWriter)
 	w.Header().Set("Content-Type", "application/json")
@@ -37,16 +37,18 @@ func (c *MovieController) GetMovies(r *http.Request, args *struct{}, result *mod
 	// Generate ETag based on the content of movies and last modified time
 	etag := c.movieService.GetETag()
 
-	// Check If-None-Match and If-Modified-Since headers to see if content has been modified
-	if match := r.Header.Get("If-None-Match"); match != "" && match == etag {
-		w.WriteHeader(http.StatusNotModified)
-		return nil
-	}
-	if modifiedSince := r.Header.Get("If-Modified-Since"); modifiedSince != "" {
-		t, err := time.Parse(http.TimeFormat, modifiedSince)
-		if err == nil && !t.Before(c.movieService.GetLastModified()) {
+	if !*force {
+		// Check If-None-Match and If-Modified-Since headers to see if content has been modified
+		if match := r.Header.Get("If-None-Match"); match != "" && match == etag {
 			w.WriteHeader(http.StatusNotModified)
 			return nil
+		}
+		if modifiedSince := r.Header.Get("If-Modified-Since"); modifiedSince != "" {
+			t, err := time.Parse(http.TimeFormat, modifiedSince)
+			if err == nil && !t.Before(c.movieService.GetLastModified()) {
+				w.WriteHeader(http.StatusNotModified)
+				return nil
+			}
 		}
 	}
 
