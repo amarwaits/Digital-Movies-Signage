@@ -1,52 +1,44 @@
-# simple-go-grpc-wallet
+# Syndica-THT
 
 #### Objective
-As a test you are required to design and create a user wallet service from scratch, which is to record customer balance, and all transactions occurred through the system.
+You are requested to build a Go web service which helps in fetching the list of movies from the
+server and serving the content on a digital signage of cinemas.
 
 #### Requirements
-1. Design a data structure for storing customer ledgers, balance details etc.
-2. By making use of the created data structure, create a gRPC service to support below features
-	a. Create user wallet – assuming user profile is created already in other systems and a unique user id (uuid) is created
-	b. Record keeping for user's transaction (credit to or debit from user's wallet) in ledgers
-	c. Retrieve user wallet summary 
-	d. Get user transaction history (pagination required)
-3. The service should also support
-	 a. Multiple currency (e.g ETC, BTC, USD etc.)
-	 b. Multiple users
-4. The service should have proper unit testing coverage
-5. Proper logging in the service
-6. Documentation
-7. Anything you think it can make the service better
+You are expected to work on the following areas:
+1. Designing API endpoints.
+	a. Build an API that provides functionality to add / get movies.
+	b. You would need to provide endpoints through which the client could add and get movie(s).
+2. Create the data (in-memory or mock api).
+	a. Add 100 movies at most hard-coded saved in a json file / mock api.
+	b. Read data when the server is first started.
+3. Write handler to return all movies.
+a. GET (/movies) - Fetch list of all movies.
+4. Write handler to add a new movie.
+a. POST (/movies) - Add a new movie to the list.
+5. Write handler to return a specific movie.
+a. GET (/movies/:id) - Fetch a movie by its entity id.
 
-\* Please try not to over complicate the task.
-\* You can use any third-party framework or libraries that you think it can help on you task.	
+Take the following points into consideration:
+- Data should be cached.
+- As this digital signage screen refreshes every 15 seconds, we need to ensure that we
+only fetch the data in case there is a change on the server.
+- And by default every hour it will fetch the latest data from the server regardless.
+- There should be an independent boolean flag (force) which should fetch the latest data if set true.
+- The requests / responses should be in JSON-RPC format.
+
 \* Please provide a repository URL (e.g Github) to send it after completion.
 
 #### Tech Design
 We have used in-memory data structures to implement this assignment.
-* `proto/wallet.proto` defines the gRPC wallet service interface.
-* `src/wallet/wallet.go` implements the above interface.
-* `src/wallet/wallet_test.go` contains some unit tests.
-* `cmd/server.go` contains the code to start the gRPC server.
-* `cmd/client/client.go` is included that contains the client code for gRPC call(s) to server.
+* `src/app/app.go` defines the JSON-RPC implementation.
+* `src/app/movie_controller.go` implements the RPC controllers.
+* `src/app/movie_service.go` contains service layer / business logic for Add/Get Movie(s).
+* `cmd/server.go` contains the code to start the server.
 
 ##### Dependencies:
-1. Go v1.18 or above (Installation guide: https://go.dev/doc/install)
-2. Protobuf v3.x (Installation guide: https://grpc.io/docs/protoc-installation/)
-3. Go plugins:
-	1. Install the protocol compiler plugins for Go using the following commands:
-		>`$ go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28`
-
-		>`$ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2`
-	2. Update your  `PATH`  so that the  `protoc`  compiler can find the plugins:
-		>`$ export PATH="$PATH:$(go env GOPATH)/bin"`
+1. Go v1.12 or above (Installation guide: https://go.dev/doc/install)
 
 ##### Running the code
 - Run server after moving the root directory of repository
 	>`go run cmd/server.go`
-- Run client after moving the root directory of repository
-	>`go run cmd/client/client.go`
-
-##### Test cases
-- Run unit tests after moving the root directory of repository
-	>`go test -v ./...`
