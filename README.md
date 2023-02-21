@@ -30,14 +30,15 @@ only fetch the data in case there is a change on the server.
 \* Please provide a repository URL (e.g Github) to send it after completion.
 
 #### Tech Design
-We have used in-memory data structures to implement this assignment.
-* `src/app/app.go` defines the JSON-RPC implementation.
-* `src/app/movie_controller.go` implements the RPC controllers.
-* `src/app/movie_service.go` contains service layer / business logic for Add/Get Movie(s).
-* `cmd/server.go` contains the code to start the server.
+1. We have used in-memory data structures to implement this assignment.
+	* `src/app/app.go` defines the JSON-RPC implementation.
+	* `src/app/movie_controller.go` implements the RPC controllers.
+	* `src/app/movie_service.go` contains service layer / business logic for Add/Get Movie(s).
+	* `cmd/server.go` contains the code to start the server.
+2. We have used `ETag` and `Last-Modified` headers to implement HTTP caching for Get Movie List that returns `HTTP status 304` when data is not updated on server.
 
 ##### Dependencies:
-1. Go v1.12 or above (Installation guide: https://go.dev/doc/install)
+1. Go v1.18 or above (Installation guide: https://go.dev/doc/install)
 
 ##### Running the code
 - Run server after moving the root directory of repository
