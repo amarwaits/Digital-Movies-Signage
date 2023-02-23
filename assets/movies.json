@@ -1,59 +1,69 @@
 [
   {
+    "id": 1,
     "title": "The Godfather",
     "genre": "Fiction",
     "year": 1972,
     "length": 120
   },
   {
+    "id": 2,
     "title": "Top Gun",
     "genre": "Action",
     "year": 1986,
     "length": 126
   },
   {
+    "id": 3,
     "title": "Top Gun: Maverick",
     "genre": "Action",
     "year": 2022,
     "length": 138
   },
   {
+    "id": 4,
     "title": "Life Is Beautiful",
     "genre": "Drama",
     "year": 1997,
     "length": 116
   },
   {
+    "id": 5,
     "title": "The Dark Knight",
     "genre": "Crime",
     "year": 2008,
     "length": 152
   },
   {
+    "id": 6,
     "title": "12 Angry Men",
     "genre": "Drama",
     "year": 1957,
     "length": 96
   },
   {
+    "id": 7,
     "title": "Pulp Fiction",
     "genre": "Thriller",
     "year": 1994,
     "length": 196
   },
   {
+    "id": 8,
     "title": "Fight Club",
     "genre": "Action",
     "year": 1999,
     "length": 139
   },
   {
+    "id": 9,
     "title": "Inception",
     "genre": "Fiction",
     "year": 2010,
     "length": 156
   },
   {
+    "id": 10,
     "title": "The Matrix",
     "genre": "Fiction",
     "year": 1999,

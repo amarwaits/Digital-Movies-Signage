@@ -16,25 +16,34 @@ type MovieService struct {
 }
 
 func NewMovieService(initialData []model.Movie) *MovieService {
+	movies := make(map[int]*model.Movie)
+	for idx, movie := range initialData {
+		movies[idx+1] = &movie
+	}
 	return &MovieService{
 		Movies:       initialData,
+		movies:       movies,
 		lastModified: time.Now().UTC(),
 	}
 }
 
-func (s *MovieService) AddMovie(movie model.Movie) int {
+func (s *MovieService) AddMovie(input model.MovieInput) int {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
+
 	id := len(s.Movies) + 1
+	movie := model.Movie{ID: id, Title: input.Title, Genre: input.Genre, Year: input.Year, Length: input.Length}
 	s.movies[id] = &movie
 	s.Movies = append(s.Movies, movie)
 	s.lastModified = time.Now().UTC()
+
 	return id
 }
 
 func (s *MovieService) GetMovie(id int) (model.Movie, error) {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
+
 	movie, ok := s.movies[id]
 	if !ok {
 		return model.Movie{}, fmt.Errorf("Movie not found with ID %d", id)
